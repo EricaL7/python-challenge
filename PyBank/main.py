@@ -3,6 +3,18 @@ import os
 import csv
 budget_data_file = os.path.join('Resources', 'budget_data.csv')
 
+def format_results(number_of_months, net_profit_loss, average_change, greatest_increase, greatest_decrease):
+   formatted_output = ''
+
+   formatted_output = formatted_output + "Financial Analysis\n"
+   formatted_output = formatted_output + "----------------------------\n"
+   formatted_output = formatted_output + (f"Total Months: {number_of_months}\n")
+   formatted_output = formatted_output + (f"Total: ${net_profit_loss}\n")
+   formatted_output = formatted_output + (f"Average Change: ${average_change:.2f}\n")
+   formatted_output = formatted_output + (f"Greatest Increase in Profits: {greatest_row_increase['date']} (${greatest_row_increase['value']})\n")
+   formatted_output = formatted_output + (f"Greatest Decrease in Profits: {greatest_row_decrease['date']} (${greatest_row_decrease['value']})\n")
+   return formatted_output
+
 #CSV reader
 with open(budget_data_file) as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
@@ -47,14 +59,17 @@ with open(budget_data_file) as csvfile:
     total_number_of_changes = number_of_months-1
     average_change = total_change/total_number_of_changes
 
-    #Print Statement
-    print("Financial Analysis")
-    print("----------------------------")
-    print(f"Total Months: {number_of_months}")
-    print(f"Total: ${net_profit_loss}")
-    print(f"Average Change: ${average_change:.2f}")
-    print(f"Greatest Increase in Profits: {greatest_row_increase['date']} (${greatest_row_increase['value']})")
-    print(f"Greatest Decrease in Profits: {greatest_row_decrease['date']} (${greatest_row_decrease['value']})")
+    print(format_results(number_of_months, net_profit_loss, average_change, greatest_row_increase, greatest_row_decrease))
+
+    #Print to txt file
+with open('analysis/Financial Analysis.txt', 'w') as text_file:
+    text_file.write(format_results(number_of_months, net_profit_loss, average_change, greatest_row_increase, greatest_row_decrease))
+
+
+    
+    
+
+    
 
 
 
